@@ -17,32 +17,30 @@ public class Pipeline {
         this.length = length;
     }
 
-    public static List<Pipeline> findByIndex(List<Pipeline> pipelines, Point pointX){
-        List<Pipeline> pipelinesList =  pipelines.stream()
+    private static List<Pipeline> findByIndex(List<Pipeline> pipelines, Point pointX){
+        return pipelines.stream()
                         .filter(pipeline -> pipeline.startPoint.getId() == pointX.getId())
                         .collect(Collectors.toList());
-        return pipelinesList;
     }
 
-    public static boolean routeInSystem(List<Pipeline> pipelines, Point pointA, Point pointB){
+    public static String findRouteInSystem(List<Pipeline> pipelines, Point pointA, Point pointB){
 
         for (Pipeline pipelineA: findByIndex(pipelines, pointA)) {
-           recursiveSearch(pipelines, pipelineA, pointB);
+           routeSearch(pipelines, pipelineA, pointB);
         }
 
-        Integer res = results.stream()
+        int res = results.stream()
                         .mapToInt(integer -> integer)
                         .min()
                         .orElse(-1);
         if(res != -1)
-            System.out.println("true;" + res);
+            return "true;" + res;
         else
-            System.out.println("false");
-        return true;
+            return "false";
     }
 
 
-    public static void recursiveSearch(List<Pipeline> pipelines, Pipeline currentPipeline, Point pointB){
+    private static void routeSearch(List<Pipeline> pipelines, Pipeline currentPipeline, Point pointB){
         localLength += currentPipeline.length;
         if(currentPipeline.endPoint.getId() == pointB.getId()){
             results.add(localLength);
@@ -52,7 +50,7 @@ public class Pipeline {
         List<Pipeline> pipelineList = findByIndex(pipelines, currentPipeline.endPoint);
         if (!pipelineList.isEmpty() ){
             for (Pipeline pipeline: pipelineList) {
-                recursiveSearch(pipelines, pipeline, pointB);
+                routeSearch(pipelines, pipeline, pointB);
             }
         }
         localLength -= currentPipeline.length;

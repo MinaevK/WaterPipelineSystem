@@ -1,11 +1,17 @@
 import Entity.Pipeline;
 import Entity.Point;
+import Utility.CSVConnector;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+
+        String pathRead = "./Resources/input.csv";
+        String pathWrite = "./Resources/output.csv";
+        boolean append = true;
+
         Point p1 = new Point(1);
         Point p2 = new Point(2);
         Point p3 = new Point(3);
@@ -14,8 +20,8 @@ public class Main {
         Point p6 = new Point(6);
         Point p7 = new Point(7);
 
-        Point pointA = new Point(1);
-        Point pointB = new Point(4);
+        Point pointA = new Point(6);
+        Point pointB = new Point(7);
 
         Pipeline pipeline1 = new Pipeline(p1, p2, 10);
         Pipeline pipeline2 = new Pipeline(p2, p3, 20);
@@ -36,7 +42,11 @@ public class Main {
 /*        pipelineList.add(pipeline6);
         pipelineList.add(pipeline7);
         pipelineList.add(pipeline8);*/
-        Pipeline.routeInSystem(pipelineList, pointA, pointB);
+
+    List<Pipeline> pipelinesFromCSV = CSVConnector.ReadCSV(pathRead);
+     CSVConnector.WriteInCSV(pathWrite, Pipeline.findRouteInSystem(pipelinesFromCSV, pointA, pointB), append);
+    //Pipeline.findRouteInSystem(pipelineList, pointA, pointB);
+
 
     }
 }
