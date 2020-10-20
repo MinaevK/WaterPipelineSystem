@@ -10,6 +10,7 @@ public class Main {
 
         String pathRead = "./Resources/input.csv";
         String pathWrite = "./Resources/output.csv";
+        String pathPoints = "./Resources/points.csv";
         boolean append = true;
 
         Point p1 = new Point(1);
@@ -43,10 +44,10 @@ public class Main {
         pipelineList.add(pipeline7);
         pipelineList.add(pipeline8);*/
 
-    List<Pipeline> pipelinesFromCSV = CSVConnector.ReadCSV(pathRead);
-     CSVConnector.WriteInCSV(pathWrite, Pipeline.findRouteInSystem(pipelinesFromCSV, pointA, pointB), append);
-    //Pipeline.findRouteInSystem(pipelineList, pointA, pointB);
-
-
+     List<Pipeline> pipelinesFromCSV = CSVConnector.ReadPiplinesDataCSV(pathRead);
+     Point[][] points = CSVConnector.ReadPointsDataCSV(pathPoints);
+        for (int i = 0; i < points.length; i++) {
+            CSVConnector.WriteInCSV(pathWrite, Pipeline.findRouteInSystem(pipelinesFromCSV, points[i][0], points[i][1]));
+        }
     }
 }

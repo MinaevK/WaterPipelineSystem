@@ -33,6 +33,8 @@ public class Pipeline {
                         .mapToInt(integer -> integer)
                         .min()
                         .orElse(-1);
+        results.clear();
+
         if(res != -1)
             return "true;" + res;
         else
